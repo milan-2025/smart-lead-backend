@@ -98,18 +98,32 @@ const leadController = {
 
   getallLeads: async (req, res) => {
     try {
-      let { page = 1, limit = 5 } = req.query;
+      let { page = 1, limit = 5, filterValue } = req.query;
       page = parseInt(page, 10);
       limit = parseInt(limit, 10);
-      let total = await Lead.countDocuments();
-      let noOfPages = Math.ceil(total / limit);
+      let total = null;
+      let noOfPages = null;
       let skip = (page - 1) * limit;
-      let leads = await Lead.find({})
-        .sort({
-          createdAt: -1,
-        })
-        .skip(skip)
-        .limit(limit);
+      let leads = null;
+      if (filterValue) {
+        total = await Lead.countDocuments({ status: filterValue });
+        noOfPages = Math.ceil(total / limit);
+        leads = await Lead.find({ status: filterValue })
+          .sort({
+            createdAt: -1,
+          })
+          .skip(skip)
+          .limit(limit);
+      } else {
+        total = await Lead.countDocuments();
+        noOfPages = Math.ceil(total / limit);
+        leads = await Lead.find({})
+          .sort({
+            createdAt: -1,
+          })
+          .skip(skip)
+          .limit(limit);
+      }
 
       return res.status(200).json({
         leads: leads,
