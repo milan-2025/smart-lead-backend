@@ -76,7 +76,7 @@ const leadController = {
 
     // --- 3. Save to MongoDB
     try {
-      console.log("data to save---", dataToSave);
+      // console.log("data to save---", dataToSave);
 
       for (let i = 0; i < dataToSave.length; i++) {
         await Lead.updateOne({ name: dataToSave[i].name }, dataToSave[i], {
