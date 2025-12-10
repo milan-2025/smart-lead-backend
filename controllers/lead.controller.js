@@ -49,6 +49,14 @@ const leadController = {
         }
       })
       .map((result) => {
+        if (result.value.country.length == 0) {
+          return {
+            name: result.value.name,
+            country: "Not Found",
+            probability: 0,
+            status: "To Check",
+          };
+        }
         if (Number(result.value.country[0].probability.toFixed(5)) >= 0.6) {
           return {
             name: result.value.name,

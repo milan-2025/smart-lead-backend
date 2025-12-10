@@ -12,6 +12,15 @@ const leadSchema = new mongoose.Schema(
       type: String,
       enum: ["Verified", "To Check"],
     },
+    isCRMSynced: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    crmSyncDate: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
